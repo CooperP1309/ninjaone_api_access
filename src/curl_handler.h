@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <winsock2.h>   // For Windows socket initialization
@@ -99,10 +101,10 @@ int curl_post_request(const char* target_host, char* body, char* result_buffer) 
     return 0;
 }
 
-int curl_get_request(const char* target_host, char* headers, char* result_buffer) {
+int curl_get_request(const char* target_host, const char* auth_header, char* result_buffer) {
 
     std::cout << "[curl_handler.h] Target Host: " << target_host << std::endl;
-    std::cout << "[curl_handler.h] GET with headers: " << headers << std::endl;
+    std::cout << "[curl_handler.h] GET with headers: " << auth_header << std::endl;
 
     // Step 1: Initialize Winsock
     if (!initWinsock()) {
@@ -126,10 +128,9 @@ int curl_get_request(const char* target_host, char* headers, char* result_buffer
 
         // build headers first
         struct curl_slist *headers = NULL;
-        headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+        headers = curl_slist_append(headers, auth_header);
+        headers = curl_slist_append(headers, "Content-Type: application/json");
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-
-        // EXTRA HEADER LOGIC HERE
 
         // Optional: Set timeout
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
@@ -141,7 +142,7 @@ int curl_get_request(const char* target_host, char* headers, char* result_buffer
         if (res != CURLE_OK) {
             std::cerr << "[curl_handler.h] curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
         } else {
-            std::cout << "[curl_handler.h] HTTP Response:\n\t" << readBuffer << std::endl << std::endl;
+            std::cout << "[curl_handler.h] HTTP Response:\n\n" << readBuffer << std::endl << std::endl;
         }
 
         // write to result buffer

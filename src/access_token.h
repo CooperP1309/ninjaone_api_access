@@ -13,7 +13,7 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 5056
 
 extern Client_credentials client_credentials;
 

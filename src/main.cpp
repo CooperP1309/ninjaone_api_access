@@ -7,6 +7,7 @@
 // src libs
 #include "client_credentials.h"
 #include "access_token.h"
+#include "api_caller.h"
 
 // global client credentials struct
 Client_credentials client_credentials;
@@ -32,6 +33,15 @@ int main() {
     }
 
     std::cout << "[MAIN] Access Token: " << access_token << std::endl;
+
+    char* result_buffer = (char*)malloc(BUFFER_SIZE);
+    result_buffer[0] = '\0';
+
+    // example API call that you can make
+    call_api("/v2/device/2", access_token, result_buffer);
+
+    free(access_token);
+    free(result_buffer);
 
     return 0;
 }
