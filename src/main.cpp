@@ -5,17 +5,29 @@
 #include <shellapi.h>
 
 // src libs
+#include "client_credentials.h"
 #include "access_token.h"
-#include "file_ops.h"
+
+// global client credentials struct
+Client_credentials client_credentials;
 
 int main() {
 
-    const char* credentials_path = get_credentials_path();
+    if (init_client_credentials() != 0) {
+        std::cerr << "Failed to initialize client credentials." << std::endl;
+        return 1;
+    }
+
+    std::cout << "[MAIN] Using client app credentials..." << std::endl << std::endl; 
+    std::cout << "\tClient ID: " << client_credentials.client_id << std::endl;
+    std::cout << "\tClient Secret: " << client_credentials.client_secret << std::endl;
+    std::cout << "\tScope: " << client_credentials.scope << std::endl;
+    std::cout << "\tHost: " << client_credentials.host << std::endl << std::endl;
 
     char* access_token = (char*)malloc(BUFFER_SIZE);
     access_token[0] = '\n';
 
-    if (get_access_token(credentials_path, access_token)) {
+    if (get_access_token(access_token)) {
         return 0;
     }
 
