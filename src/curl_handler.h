@@ -142,7 +142,7 @@ int curl_get_request(const char* target_host, const char* auth_header, char* res
         if (res != CURLE_OK) {
             std::cerr << "[curl_handler.h] curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
         } else {
-            std::cout << "[curl_handler.h] HTTP Response:\n\n" << readBuffer << std::endl << std::endl;
+            std::cout << "[curl_handler.h] HTTP Response Recieved:\n\n" << std::endl;
         }
 
         // write to result buffer

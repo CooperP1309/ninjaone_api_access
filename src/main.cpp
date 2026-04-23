@@ -32,13 +32,15 @@ int main() {
         return 0;
     }
 
-    std::cout << "[MAIN] Access Token: " << access_token << std::endl;
+    std::cout << "[MAIN] Access Token: " << access_token << std::endl << std::endl;
 
     char* result_buffer = (char*)malloc(BUFFER_SIZE);
     result_buffer[0] = '\0';
 
     // example API call that you can make
     call_api("/v2/device/2", access_token, result_buffer);
+
+    std::cout << std::endl << "[MAIN] API Response: " << std::endl << result_buffer << std::endl;
 
     free(access_token);
     free(result_buffer);
